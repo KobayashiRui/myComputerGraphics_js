@@ -1,13 +1,128 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>My first three.js app</title>
-		<style>
-			body { margin: 0; }
-		</style>
-	</head>
-	<body>
-		<script type="module" src="tutorial.js"></script>
-	</body>
+
+<head>
+    <link href="http://fonts.googleapis.com/earlyaccess/notosansjp.css">
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+
+    <script>
+        hljs.initLineNumbersOnLoad();
+        hljs.initHighlightingOnLoad();
+    </script>
+	<title>My CG Wiki Template</title>
+</head>
+
+<body>
+    <div id="page_title">
+	    <h1>Three.jsの動作確認 & 基礎コードについて</h1>
+    </div>
+
+    <div id="page_contents1">
+		<h2>簡単なキューブの描画</h2>
+	    <canvas id="myCanvas"></canvas>
+        <pre>
+            <code>
+				import * as THREE from 'https://unpkg.com/three/build/three.module.js';
+
+				const scene = new THREE.Scene();
+
+				const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+				const renderer = new THREE.WebGLRenderer({
+					canvas: document.querySelector('#myCanvas')
+				  });
+			  
+				let width = window.innerWidth / 2;
+				let height = window.innerHeight / 2;
+				renderer.setSize(width , height);
+			  
+				const geometry = new THREE.BoxGeometry(1, 1, 1);
+				const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+				const cube = new THREE.Mesh( geometry, material );
+				scene.add( cube );
+			  
+				camera.position.z = 5;
+			  
+				const animate = function () {
+					requestAnimationFrame( animate );
+					cube.rotation.x += 0.01;
+					cube.rotation.y += 0.01;
+					renderer.render( scene, camera );
+				};
+
+				animate();
+			</code>
+		</pre>
+    </div>
+
+	<script type="module" src="./main.js"></script>
+</body>
+
 </html>
+<script>
+[].forEach.call(document.querySelectorAll('code'), function($code) {
+    var lines = $code.textContent.split('\n');
+
+    if (lines[0] === '')
+    {
+        lines.shift()
+    }
+
+    var matches;
+    var indentation = (matches = /^[\s\t]+/.exec(lines[0])) !== null ? matches[0] : null;
+    if (!!indentation) {
+        lines = lines.map(function(line) {
+            line = line.replace(indentation, '')
+            return line.replace(/\t/g, '    ')
+        });
+
+        $code.textContent = lines.join('\n').trim();
+    }
+});
+</script>
+
+<style type="text/css">
+.hljs-ln-code {
+	padding-left:10px;
+}
+.hljs-ln-numbers {
+    text-align: center;
+    color: #ccc;
+    border-right: 1px solid #999;
+    vertical-align: top;
+    padding-right: 1px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+pre{
+    display: flex;
+}
+code {
+  white-space: pre-wrap;
+  overflow: auto;
+}
+body {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+#page_title{
+  width:90%;
+  margin-right: auto;
+  margin-left : auto;
+}
+
+#page_contents1{
+  width:90%;
+  margin-right: auto;
+  margin-left : auto;
+}
+</style>
