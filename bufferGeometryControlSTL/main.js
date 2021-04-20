@@ -23,12 +23,6 @@ camera.position.z = 100;
 
 const animate = function () {
 	requestAnimationFrame( animate );
-
-	//if(load_mesh){
-	//	stl_mesh.rotation.x += 0.01;
-	//	stl_mesh.rotation.y += 0.01;
-	//}
-
 	renderer.render( scene, camera );
 };
 
